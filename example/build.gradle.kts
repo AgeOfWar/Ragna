@@ -8,7 +8,7 @@ plugins {
 }
 
 application {
-    mainClass.set("com.github.ageofwar.ragna.example.Main")
+    mainClass.set("com.github.ageofwar.solex.example.Main")
 }
 
 group = "com.github.ageofwar"
