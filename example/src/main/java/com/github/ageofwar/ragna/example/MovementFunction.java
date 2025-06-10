@@ -20,32 +20,15 @@ public class MovementFunction {
 
     public Position apply(long t, Position velocity, Rotation rotation) {
         var elapsedTime = (t - lastTime) / 1_000_000_000.0f;
-        var upPressed = window.isKeyPressed(GLFW_KEY_W);
-        var downPressed = window.isKeyPressed(GLFW_KEY_S);
-        var leftPressed = window.isKeyPressed(GLFW_KEY_A);
-        var rightPressed = window.isKeyPressed(GLFW_KEY_D);
-        var spacePressed = window.isKeyPressed(GLFW_KEY_SPACE);
-        var leftShiftPressed = window.isKeyPressed(GLFW_KEY_LEFT_SHIFT);
         var relativeDirection = Direction.NONE;
 
-        if (upPressed && !downPressed) {
-            relativeDirection = relativeDirection.add(Direction.FORWARD);
-        }
-        if (downPressed && !upPressed) {
-            relativeDirection = relativeDirection.add(Direction.BACKWARD);
-        }
-        if (leftPressed && !rightPressed) {
-            relativeDirection = relativeDirection.add(Direction.LEFT);
-        }
-        if (rightPressed && !leftPressed) {
-            relativeDirection = relativeDirection.add(Direction.RIGHT);
-        }
-        if (spacePressed && !leftShiftPressed) {
-            relativeDirection = relativeDirection.add(Direction.UP);
-        }
-        if (leftShiftPressed && !spacePressed) {
-            relativeDirection = relativeDirection.add(Direction.DOWN);
-        }
+        if (window.isKeyPressed(GLFW_KEY_W)) relativeDirection = relativeDirection.add(Direction.FORWARD);
+        if (window.isKeyPressed(GLFW_KEY_S)) relativeDirection = relativeDirection.add(Direction.BACKWARD);
+        if (window.isKeyPressed(GLFW_KEY_A)) relativeDirection = relativeDirection.add(Direction.LEFT);
+        if (window.isKeyPressed(GLFW_KEY_D)) relativeDirection = relativeDirection.add(Direction.RIGHT);
+        if (window.isKeyPressed(GLFW_KEY_SPACE)) relativeDirection = relativeDirection.add(Direction.UP);
+        if (window.isKeyPressed(GLFW_KEY_LEFT_SHIFT)) relativeDirection = relativeDirection.add(Direction.DOWN);
+
         if (relativeDirection != Direction.NONE) {
             var direction = rotation.direction(relativeDirection);
             start = start.add(Position.fromVector(new float[] {
@@ -56,5 +39,11 @@ public class MovementFunction {
         }
         lastTime = t;
         return start;
+    }
+
+    public boolean isMoving() {
+        return window.isKeyPressed(GLFW_KEY_W) || window.isKeyPressed(GLFW_KEY_S) ||
+                window.isKeyPressed(GLFW_KEY_A) || window.isKeyPressed(GLFW_KEY_D) ||
+                window.isKeyPressed(GLFW_KEY_SPACE) || window.isKeyPressed(GLFW_KEY_LEFT_SHIFT);
     }
 }
